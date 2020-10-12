@@ -1,0 +1,10 @@
+[package]
+name = "google-translate"
+version = "0.1.0"
+authors = ["JakeHuneau <jakehuneau@yahoo.com>"]
+edition = "2018"
+
+[dependencies]
+regex = "1"
+serde = "*"
+reqwest = {version = "^0", features = ["blocking", "json", "cookies"]}
