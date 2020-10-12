@@ -43,14 +43,14 @@ fn get_optional_env_var(key: &str) -> String {
 fn print_help() {
     println!(
         "
-To translate something something using google translate, use the format 
+To translate something something using google translate, use the format
 `google-translate -i <input_language> -o <output_language> <text to translate>.
 
 You may also provide the input language with the environment variable GT_INPUT_LANGUAGE
 and output language with environment variable GT_OUTPUT_LANGUAGE.
 
 This requires an environment variable GOOGLE_ACCESS_KEY which can be retrieved with `gcloud auth application-default print-access-token`
-    
+
 The allowed languages are:
 
 Afrikaans - af
@@ -244,6 +244,12 @@ fn parse_input() -> Input {
 }
 
 fn translate(input: Input) {
+    let access_key = get_optional_env_var("GOOGLE_ACCESS_KEY");
+    if access_key.len() == 0 {
+        println!("A Google access key is required. See this for how to create one: https://cloud.google.com/translate/docs/setup");
+        exit(1);
+    }
+
     // Build body for http call
     let mut body = HashMap::new();
     body.insert("source", input.input_language);
