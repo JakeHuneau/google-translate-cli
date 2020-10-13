@@ -258,19 +258,18 @@ fn translate(input: Input) {
 
     // Make call
     let client = reqwest::blocking::Client::new();
-    let res: Ip = client
+    let res: Result<Ip, reqwest::Error> = client
         .post("https://translation.googleapis.com/language/translate/v2")
-        .header(
-            "Authorization",
-            format!("Bearer {}", get_optional_env_var("GOOGLE_ACCESS_KEY")),
-        )
+        .header("Authorization", format!("Bearer {}", access_key))
         .json(&body)
         .send()
         .unwrap()
-        .json()
-        .unwrap();
+        .json();
 
-    println!("{}", res.data.translations[0].translatedText);
+    match res {
+        Ok(res) => println!("{}", res.data.translations[0].translatedText),
+        Err(e) => println!("There was the following error with the API call: {}", e),
+    }
 }
 
 fn main() {
