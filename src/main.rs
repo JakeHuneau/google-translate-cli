@@ -268,7 +268,7 @@ fn translate(input: Input) {
 
     match res {
         Ok(res) => println!("{}", res.data.translations[0].translatedText),
-        Err(e) => println!("There was the following error with the API call: {}", e),
+        Err(_) => println!("There was the following error with the API call. Maybe refresh your google access key."),
     }
 }
 
